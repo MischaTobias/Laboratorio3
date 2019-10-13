@@ -494,7 +494,6 @@ namespace Lab3MischaTobias1170919 {
 
 		CambiarPilas();
 
-		MessageBox::Show("Everything ok c:");
 		cBCantidadCartas->Enabled = true;
 		cBPilaEntrada->Enabled = true;
 		cBPilaSalida->Enabled = true;
@@ -758,6 +757,8 @@ namespace Lab3MischaTobias1170919 {
 
 	private: System::Void ApilarYDesapilar(Pila* pilaEntrada, Pila* pilaSalida, int numCartas)
 	{
+		int cont = 0;
+
 		if (numCartas <= pilaSalida->NElementos)
 		{
 			if (okCards(&pilaSalida->ObtenerCima(), &pilaEntrada->ObtenerCima()))
@@ -767,11 +768,16 @@ namespace Lab3MischaTobias1170919 {
 				{
 					if (okCards(&pilaAux->ObtenerCima(), &pilaSalida->ObtenerCima()))
 					{
-						pilaAux->Apilar(pila1->Desapilar());
+						pilaAux->Apilar(pilaSalida->Desapilar());
+						cont++;
 					}
 					else
 					{
 						i = numCartas;
+						for (int i = 0; i < cont; i++)
+						{
+							pilaSalida->Apilar(pilaAux->Desapilar());
+						}
 						MessageBox::Show("No se puede realizar el movimiento, el color de la nueva carta debe ser diferente y el número debe ser menor al de la carta superior");
 					}
 				}
@@ -970,11 +976,118 @@ namespace Lab3MischaTobias1170919 {
 		}
 
 		CambiarPilas();
+		FinJuego();
 		/*for (int i = 0; i < x; i++)
 		{
 			pila6->Apilar(pila7->Desapilar());
 		}*/
 	}
+
+private: System::Void FinJuego() {
+
+	if (HayOrden(pila7))
+	{
+		MessageBox::Show("¡HAS GANADO, FELICITACIONES!");
+		cBCantidadCartas->Enabled = false;
+		cBPilaEntrada->Enabled = false;
+		cBPilaSalida->Enabled = false;
+		btnMoverCartas->Enabled = false;
+		btnRepartirCartasDelMazo->Enabled = false;
+	}
+	else if (HayOrden(pila6))
+	{
+		MessageBox::Show("¡HAS GANADO, FELICITACIONES!");
+		cBCantidadCartas->Enabled = false;
+		cBPilaEntrada->Enabled = false;
+		cBPilaSalida->Enabled = false;
+		btnMoverCartas->Enabled = false;
+		btnRepartirCartasDelMazo->Enabled = false;
+	}
+	else if (HayOrden(pila5))
+	{
+		MessageBox::Show("¡HAS GANADO, FELICITACIONES!");
+		cBCantidadCartas->Enabled = false;
+		cBPilaEntrada->Enabled = false;
+		cBPilaSalida->Enabled = false;
+		btnMoverCartas->Enabled = false;
+		btnRepartirCartasDelMazo->Enabled = false;
+	}
+	else if (HayOrden(pila4))
+	{
+		MessageBox::Show("¡HAS GANADO, FELICITACIONES!");
+		cBCantidadCartas->Enabled = false;
+		cBPilaEntrada->Enabled = false;
+		cBPilaSalida->Enabled = false;
+		btnMoverCartas->Enabled = false;
+		btnRepartirCartasDelMazo->Enabled = false;
+	}
+	else if (HayOrden(pila3))
+	{
+		MessageBox::Show("¡HAS GANADO, FELICITACIONES!");
+		cBCantidadCartas->Enabled = false;
+		cBPilaEntrada->Enabled = false;
+		cBPilaSalida->Enabled = false;
+		btnMoverCartas->Enabled = false;
+		btnRepartirCartasDelMazo->Enabled = false;
+	}
+	else if (HayOrden(pila2))
+	{
+		MessageBox::Show("¡HAS GANADO, FELICITACIONES!");
+		cBCantidadCartas->Enabled = false;
+		cBPilaEntrada->Enabled = false;
+		cBPilaSalida->Enabled = false;
+		btnMoverCartas->Enabled = false;
+		btnRepartirCartasDelMazo->Enabled = false;
+	}
+	else if (HayOrden(pila1))
+	{
+		MessageBox::Show("¡HAS GANADO, FELICITACIONES!");
+		cBCantidadCartas->Enabled = false;
+		cBPilaEntrada->Enabled = false;
+		cBPilaSalida->Enabled = false;
+		btnMoverCartas->Enabled = false;
+		btnRepartirCartasDelMazo->Enabled = false;
+	}
+}
+
+private: System::Boolean HayOrden(Pila* pila) {
+	Carta* cartaComparar = new Carta();
+	Carta* cartaComparar2 = new Carta();
+	Nodo* nodCarta2 = new Nodo();
+	nodCarta2 = (pila->head2)->siguiente;
+	cartaComparar = &pila->ObtenerCima();
+	cartaComparar2 = &nodCarta2->valor;
+	int cartasOrdenadas = 0;
+
+	if (pila->NElementos < 5)
+	{
+		return false;
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		if (cartaComparar->valor == cartaComparar2->valor - 1 && okCards(cartaComparar, cartaComparar2))
+		{
+			cartasOrdenadas++;
+			cartaComparar = cartaComparar2;
+			nodCarta2 = nodCarta2->siguiente;
+			cartaComparar2 = &nodCarta2->valor;
+		}
+		else
+		{
+			i = 4;
+			cartasOrdenadas = 0;
+		}
+	}
+
+	if (cartasOrdenadas == 5)
+	{
+		return true;
+	}
+
+	return false;
+}
+
 
 private: System::Void btnRepartirCartasDelMazo_Click(System::Object^ sender, System::EventArgs^ e) {
 	//Smthing cool here too xd
